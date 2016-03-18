@@ -3,13 +3,13 @@ module cdce_command_rom
        (
          input clk, reset_n,
          input [ 7: 0 ] address,
-         output [ 23: 0 ] command
+         output [ 35: 0 ] command
        );
 
 // Memory variable
-reg [ 23: 0 ] rom[ 7: 0 ];
+reg [ 35: 0 ] rom[ 7: 0 ];
 
-reg [ 23: 0 ] command_reg;
+reg [ 35: 0 ] command_reg;
 assign command = command_reg;
 
 // ROM initialization

@@ -4,7 +4,7 @@ module cdce_serial_out
          input clk, reset_n,
          input enable,
          input start_transaction,
-         input [ 19: 0 ] parallel_input,
+         input [ 31: 0 ] parallel_input,
          output cs_n,
          output mosi,
          output transaction_done
@@ -28,7 +28,7 @@ reg [ 4: 0 ] shift_out_count;
 reg enable_shift, load_shift;
 
 // Manual instantiation of the lpm_shiftreg
-lpm_shiftreg shiftreg20 (
+lpm_shiftreg shiftreg32 (
                .clock ( clk ),
                .aclr ( ~reset_n ),
                .data ( parallel_input ),
@@ -45,9 +45,9 @@ lpm_shiftreg shiftreg20 (
                // synopsys translate_on
              );
 defparam
-  shiftreg20.lpm_direction = "LEFT",
-  shiftreg20.lpm_type = "LPM_SHIFTREG",
-  shiftreg20.lpm_width = 20;
+  shiftreg32.lpm_direction = "LEFT",
+  shiftreg32.lpm_type = "LPM_SHIFTREG",
+  shiftreg32.lpm_width = 32;
 
 // Registered processes
 always @( posedge clk or negedge reset_n ) begin
@@ -68,7 +68,7 @@ always @( posedge clk or negedge reset_n ) begin
       begin
         enable_shift <= 1'b0;
         load_shift <= 1'b0;
-        shift_out_count <= 5'd19;
+        shift_out_count <= 5'd31;
 
         // disable done-ness when starting
         transaction_done_reg <= ~start_transaction;
@@ -78,7 +78,7 @@ always @( posedge clk or negedge reset_n ) begin
       begin
         enable_shift <= 1'b1;
         load_shift <= 1'b1;
-        shift_out_count <= 5'd19;
+        shift_out_count <= 5'd31;
 
         transaction_done_reg <= 1'b0;
         cs_reg <= 1'b0;
@@ -97,7 +97,7 @@ always @( posedge clk or negedge reset_n ) begin
       begin
         enable_shift <= 1'b0;
         load_shift <= 1'b0;
-        shift_out_count <= 5'd19;
+        shift_out_count <= 5'd31;
 
         transaction_done_reg <= 1'b1;
         cs_reg <= 1'b0;

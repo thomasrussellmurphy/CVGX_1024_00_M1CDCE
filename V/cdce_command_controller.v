@@ -4,9 +4,9 @@ module cdce_command_controller
          input clk, reset_n,
          input enable,
          input serial_ready,
-         input [ 23: 0 ] controller_command,
+         input [ 35: 0 ] controller_command,
          output [ 7: 0 ] rom_address,
-         output [ 19: 0 ] afe_command,
+         output [ 35: 0 ] cdce_command,
          output start_transaction,
          output done
        );
@@ -31,9 +31,9 @@ reg [ 2: 0 ] state, next_state;
 
 // Command processing
 wire [ 3: 0 ] command;
-assign command = controller_command[ 23: 20 ];
+assign command = controller_command[ 35: 32 ];
 
-assign afe_command = controller_command[ 19: 0 ];
+assign cdce_command = controller_command[ 31: 0 ];
 
 // System outputs
 reg start_transaction_reg, done_reg;
