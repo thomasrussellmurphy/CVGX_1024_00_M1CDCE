@@ -1,11 +1,5 @@
-// Handwritten ROM to hold the commands to send to the AFE
-// Format:
-//   [ 23: 20 ] command to state machine
-//      0000: stop, no further valid commands
-//      0001: valid command to send
-//      others: reserved
-//   [ 19: 0 ] 20-bit command to be sent to the AFE over SPI
-module afe_command_rom
+// ROM initializer to provide instructions/data to the configuration system
+module cdce_command_rom
        (
          input clk, reset_n,
          input [ 7: 0 ] address,
@@ -23,7 +17,7 @@ initial
 begin
   // Read hex memory from file
   // Relative path from this Verilog file
-  $readmemh( "../rom_data/afe_configuration_rom_data.txt", rom );
+  $readmemh( "../rom_data/cdce_configuration_rom_data.txt", rom );
 end
 
 // ROM controller

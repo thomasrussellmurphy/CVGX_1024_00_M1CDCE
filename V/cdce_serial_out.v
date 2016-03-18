@@ -1,5 +1,5 @@
-// Module to simply send the AFE the 20-bit commands
-module afe_serial_out
+// Module to simply send the CDCE the 32-bit commands
+module cdce_serial_out
        (
          input clk, reset_n,
          input enable,

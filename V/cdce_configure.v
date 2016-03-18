@@ -1,5 +1,5 @@
-// Module to connect the parts of the AFE configuration system
-module afe_configure
+// Module to connect the parts of the CDCE configuration system
+module cdce_configure
        (
          input clk, reset_n,
          input miso,

@@ -1,4 +1,5 @@
-module afe_command_controller
+// State machine to use data from ROM to control serial output
+module cdce_command_controller
        (
          input clk, reset_n,
          input enable,
