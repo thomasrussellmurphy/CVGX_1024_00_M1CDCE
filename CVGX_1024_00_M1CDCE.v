@@ -236,13 +236,56 @@ output HSMC_CLKOUT2_N;
 //  REG/WIRE declarations
 //=======================================================
 
+// For PLL monitoring
+wire testpll_reset;
+wire testpll_clk50;
+wire testpll_lock;
 
+assign testpll_reset = ~KEY[ 0 ];
+assign LEDG[ 0 ] = testpll_lock;
+// To give a legit output
+assign HSMC_CLKOUT0 = testpll_clk50;
 
+// ADC LVDS interfacing
+wire [ 4: 0 ] adc_aggregate_lvds;
+wire adc_lvds_clk;
+
+assign adc_aggregate_lvds = {
+         ADCB_DATA1_P,
+         ADCB_DATA0_P,
+         ADCA_DATA1_P,
+         ADCA_DATA0_P,
+         ADC_FCLKOUT_P
+       };
+assign adc_lvds_clk = ADC_DCLKOUT_P;
+
+// DAC LVDS interfacing
+wire [ 4: 0 ] dac_aggregate_lvds;
+wire dac_lvds_clk;
+
+assign {
+    DACB_DATA1_P,
+    DACB_DATA0_P,
+    DACA_DATA1_P,
+    DACA_DATA0_P,
+    DAC_FCLKIN_P
+  } = dac_aggregate_lvds;
+assign DAC_DCLKIN_P = dac_lvds_clk;
+
+// Acts like loopback, this is entirely useless since the board has no AFE
+assign dac_aggregate_lvds = adc_aggregate_lvds;
+assign dac_lvds_clk = adc_lvds_clk;
 
 //=======================================================
 //  Structural coding
 //=======================================================
 
+pll_125_to_50 test_pll (
+                .refclk( FPGA_REF_CLK_P ),
+                .rst( testpll_reset ),
+                .outclk_0( testpll_clk50 ),
+                .locked( testpll_lock )
+              );
 
 
 endmodule
