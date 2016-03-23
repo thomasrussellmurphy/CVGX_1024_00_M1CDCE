@@ -125,7 +125,7 @@ always @( state, start_transaction, shift_out_count, enable ) begin
     end
     shifting_state:
     begin
-      if ( shift_out_count == 1'b1 )
+      if ( shift_out_count == 1'b0 )
       begin
         next_state = delay_state;
       end else
