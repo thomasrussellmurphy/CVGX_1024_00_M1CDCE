@@ -7,7 +7,9 @@
 
 // We start at the top of the memory
 @00
+// Arbitrary command
+102032435
 // Done
-000000
+000000000
 
 // All remaining space will be filled with zeros
