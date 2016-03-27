@@ -12,6 +12,8 @@ create_clock -period 20.000ns [get_ports CLOCK_50_B6A]
 create_clock -period 20.000ns [get_ports CLOCK_50_B7A]
 create_clock -period 20.000ns [get_ports CLOCK_50_B8A]
 
+create_clock -period 8.000ns [get_ports FPGA_REF_CLK_P]
+
 #**************************************************************
 # Create Generated Clock
 #**************************************************************
