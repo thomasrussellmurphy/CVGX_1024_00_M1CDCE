@@ -236,15 +236,34 @@ output HSMC_CLKOUT2_N;
 //  REG/WIRE declarations
 //=======================================================
 
+// For master config internal PLL
+wire cvconfigpll_lock;
+wire cvconfigpll_clk16;
+wire cvconfigpll_reset;
+
 // For PLL monitoring
 wire testpll_reset;
 wire testpll_clk50;
 wire testpll_lock;
 
+// For CDCE config indication
+wire cdce_config_done;
+
 assign testpll_reset = ~KEY[ 0 ];
+assign cvconfigpll_reset = ~KEY[ 0 ];
 assign LEDG[ 0 ] = testpll_lock;
+assign LEDG[ 1 ] = cvconfigpll_lock;
+
 // To give a legit output
 assign HSMC_CLKOUT0 = testpll_clk50;
+
+// Assigning configuration clock outputs, even if they aren't used
+assign AFE_SCLK = cvconfigpll_clk16;
+assign ADRF_CLK = cvconfigpll_clk16;
+assign CDCE_SCLK = cvconfigpll_clk16;
+
+// Indicate when CDCE configuration is done
+assign LEDR[ 1 ] = cdce_config_done;
 
 // ADC LVDS interfacing
 wire [ 4: 0 ] adc_aggregate_lvds;
@@ -280,6 +299,13 @@ assign dac_lvds_clk = adc_lvds_clk;
 //  Structural coding
 //=======================================================
 
+pll_50_to_16 config_pll(
+               .refclk( CLOCK_50_B7A ),
+               .rst( cvconfigpll_reset ),
+               .outclk_0( cvconfigpll_clk16 ),
+               .locked( cvconfigpll_lock )
+             );
+
 pll_125_to_50 test_pll (
                 .refclk( FPGA_REF_CLK_P ),
                 .rst( testpll_reset ),
@@ -287,5 +313,17 @@ pll_125_to_50 test_pll (
                 .locked( testpll_lock )
               );
 
+// Instantiate configuration controller
+cdce_configure configuration_master
+               (
+                 .clk( cvconfigpll_clk16 ),
+                 .reset_n( cvconfigpll_lock ),
+                 .miso( CDCE_MISO ),
+                 .pdn( CDCE_PD ),
+                 .cs_n( CDCE_LE ),
+                 .mosi( CDCE_MOSI ),
+                 .device_sync( CDCE_SYNC ),
+                 .configure_done( cdce_config_done )
+               );
 
 endmodule
