@@ -112,7 +112,7 @@ always @( state, enable, serial_ready, command ) begin
     // done_state uses default
     default:
     begin
-      next_state <= done_state;
+      next_state = done_state;
     end
   endcase
 end
