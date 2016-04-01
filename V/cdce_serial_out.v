@@ -45,7 +45,7 @@ lpm_shiftreg shiftreg32 (
                // synopsys translate_on
              );
 defparam
-  shiftreg32.lpm_direction = "LEFT",
+  shiftreg32.lpm_direction = "RIGHT",
   shiftreg32.lpm_type = "LPM_SHIFTREG",
   shiftreg32.lpm_width = 32;
 
