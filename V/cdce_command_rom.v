@@ -3,14 +3,17 @@ module cdce_command_rom
        (
          input clk, reset_n,
          input [ 7: 0 ] address,
-         output [ 35: 0 ] command
+         output [ 3: 0 ] controller_command,
+         output [ 31: 0 ] cdce_shift_data
        );
 
 // Memory variable
 reg [ 35: 0 ] rom[ 7: 0 ];
 
 reg [ 35: 0 ] command_reg;
-assign command = command_reg;
+
+assign controller_command = command_reg[ 35: 32 ];
+assign cdce_shift_data = command_reg[ 31: 0 ];
 
 // ROM initialization
 initial

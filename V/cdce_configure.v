@@ -23,7 +23,7 @@ wire command_transactions_done;
 
 assign configure_done = command_transactions_done;
 
-wire [ 35: 0 ] rom_command;
+wire [ 3: 0 ] controller_command;
 wire [ 31: 0 ] cdce_command;
 wire [ 7: 0 ] rom_address;
 
@@ -33,9 +33,8 @@ cdce_command_controller command_controller
                           .reset_n( reset_n ),
                           .enable( reset_done ),
                           .serial_ready( transaction_done ),
-                          .controller_command( rom_command ),
+                          .command( controller_command ),
                           .rom_address( rom_address ),
-                          .cdce_command( cdce_command ),
                           .start_transaction( start_transaction ),
                           .done( command_transactions_done )
                         );
@@ -45,7 +44,8 @@ cdce_command_rom command_rom
                    .clk( clk ),
                    .reset_n( reset_n ),
                    .address( rom_address ),
-                   .command( rom_command )
+                   .controller_command( controller_command ),
+                   .cdce_shift_data( cdce_command )
                  );
 
 cdce_serial_out serial_out
