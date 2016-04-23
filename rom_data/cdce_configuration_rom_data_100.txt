@@ -1,0 +1,47 @@
+// Format:
+//	[35:32]	state machine
+//      0000: stop, no further valid commands
+//      0001: valid command to send
+//      others: reserved
+//  CDCE command components
+//	[31:4] 	28 Bit Data
+//	[3:0]	CDCE Address
+//
+
+// Implemented for 1024-00
+
+//Register 0x07:
+//vco loop calibrations; various
+1BBA0F9C7
+
+//Register 0x06:
+//vco charge pump; vco feedback settings; prescaler; select low freq vco
+104BE09E6
+
+//Register 0x05:
+//pll lock settings; input divider; input buffers and muxing settings
+110000A65
+
+//Register 0x04:
+// output disabled
+168000014
+
+//Register 0x3:
+// 50 MHz LVPECL; reference divider setting
+181140003
+
+//Register 0x02:
+// 50 MHz LVDS to FPGA; reference divider setting
+1E9140002
+
+//Register 0x01
+// output disabled; secondary input refernce divider /1
+168000021
+
+//Register 0x00
+// output disabled; primary input reference divider /1
+168000020
+//131140320 for 100 MHz CMOS P active, N low
+
+//terminate
+000000000
